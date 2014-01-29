@@ -3,6 +3,19 @@ get '/' do
   erb :index
 end
 
+get '/signup' do
+  erb :signup
+end
+
+get '/signin' do
+  erb :signin
+end
+
+get '/logout' do
+  session.clear
+  redirect '/'
+end
+
 post '/urls' do
   # create a new Url
 
@@ -11,7 +24,8 @@ post '/urls' do
   @generated_shortened_url = (0...8).map { (65 + rand(26)).chr }.join
   url = Url.new(original_url: params[:inputted_url],
                 shortened_url: @generated_shortened_url,
-                click_counter: 0)
+                click_counter: 0,
+                user_id: session[:object][:id])
 
   unless url.valid?
     @generated_shortened_url = "Your URL " + url.errors[:original_url][0] + "!!!"
@@ -23,7 +37,26 @@ post '/urls' do
   erb :index
 end
 
-# e.g., /q6bda
+post '/create_account' do
+  new_user = User.new(name: params[:user],
+                      password: params[:password],
+                      email: params[:email])
+  session[:object] = new_user
+  new_user.save
+  redirect '/'
+end
+
+post '/signin' do
+  attempted_acct = User.where('name = ?', params[:user])[0]
+  unless attempted_acct == nil
+    if attempted_acct.password == params[:password]
+      session[:object] = attempted_acct
+      redirect '/'
+    end
+  end
+  erb :tryagainsignin
+end
+
 get '/:short_url' do
   redirect_url = nil
   Url.all.each do |x|

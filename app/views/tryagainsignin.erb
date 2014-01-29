@@ -1,0 +1,13 @@
+</div style='float: left;'>
+<p>Error. Please try signing in again.</p>
+  <% if true %>
+    <form name="input" action="/signin" method="post">
+      Username: <input type="text" name="user"><br>
+      Password: <input type="password" name="password"><br>
+      <input type="submit" value="Submit"><br>
+      <a href='/signup'>Sign up</a>
+    </form>
+  <% else %>
+    <a href='/logout'>Logout</a>
+  <% end %>
+</div>
