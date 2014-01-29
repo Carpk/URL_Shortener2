@@ -1,0 +1,19 @@
+<div class="container">
+  <h1>Welcome to URL Shortner</h1>
+
+    <% if @generated_shortened_url %>
+      <p>Below you will see your 8 letter shortened URL</p>
+      <p><%= @generated_shortened_url %></p>
+    <% end %>
+
+
+  <table>
+    <form name="input" action="/urls" method="post">
+      Type a url here to shorten it: <input type="text" name="inputted_url">
+      <input type="submit" value="Submit">
+    </form>
+  </table>
+</div>
+
+
+
