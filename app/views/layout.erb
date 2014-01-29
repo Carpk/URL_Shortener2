@@ -28,6 +28,18 @@
       <a href="/signup">Sign up</a>
     <% end %>
   </div>
+
   <%= yield %>
+
+  <div class='list_display'>
+    <h3 style='text-align: center;'>Below you will see a list of links that you have created:</h3>
+    <% if session[:object] %>
+      <% blah = Url.where(user_id: session[:object][:id]) %>
+        <% blah.each do |x| %>
+          <p>Original URL: <%= x.original_url %> <br> Shortened URL: <%= x.shortened_url %> <br> Number of clicks: <%= x.click_counter %> </p>
+        <% end %>
+    <% end %>
+  </div>
+
 </body>
 </html>
